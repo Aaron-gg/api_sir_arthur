@@ -11,6 +11,8 @@ const verifySession = async (req, res, next) => {
 
         const user = await User.findById(decoded.id, {password: 0});
         if(!user) return res.status(404).json({message: 'No user found'});
+
+        if(user.blackListToken.includes(token)) return res.status(404).json({message: 'Session expired'});
         next();
     }
     catch (error){

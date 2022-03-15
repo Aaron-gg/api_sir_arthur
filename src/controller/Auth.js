@@ -11,11 +11,15 @@ const controller = {
         const token = jwt.sign({id: userFound._id}, secretKey, {
             expiresIn: '1d'
         });
-        //console.log(userFound);
         res.status(200).json({
             token: token
         });
     },
+    logOut: async (req, res) => {
+        const ExpiredToken = req.headers["x-access-token"];
+        await User.findOneAndUpdate( { _id: req.userId }, { $push: { blackListToken: ExpiredToken }});
+        res.send("logout");
+    }
 }
 
 module.exports = {

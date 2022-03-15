@@ -20,6 +20,7 @@ const userSchema = new Schema({
         ref: "purchases", // indica que esta relacionado con otro modelo de datos
         type: Schema.Types.ObjectId // guardaremos un tipo de dato id de mongo
     }],
+    blackListToken: Array,
 }, {
     timestamps: true,
     versionKey: false

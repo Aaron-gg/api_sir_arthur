@@ -14,10 +14,11 @@ const controller = {
         res.status(200).json({saveUser});
     },
     showUser: async (req, res) => {
-        const user = await User.findById(req.userId);
+        const user = await User.findById(req.userId).populate("cards");
         res.status(200).json({
             name: user.name,
             email: user.email,
+            cards: user.cards,
             purchases: user.purchases,
         });
     },
