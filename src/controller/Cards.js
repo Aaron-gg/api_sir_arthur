@@ -39,14 +39,17 @@ const controller = {
         });
     },
     editCard: async (req, res) => {
-        const { alias, icon, purchclosing_date } = req.body;
-        await Card.findByIdAndUpdate(req.cardId, { alias, icon, purchclosing_date, due_date});
+        const { alias, icon, closing_date } = req.body;
+        await Card.findByIdAndUpdate(req.cardId, { alias, icon });
         res.status(200).json({
             message: "Datos actualizados"
         });
     },
     deleteCard: async (req, res) => {
         await Card.findByIdAndDelete(req.cardId);
+        const user = await User.findById(req.userId);
+        const newArrayCards = user.cards.filter((element) => element != req.cardId);
+        await User.findOneAndUpdate( { _id: req.userId }, { cards: newArrayCards });
         res.status(200).json({
             message: "Tarjeta eliminada"
         });

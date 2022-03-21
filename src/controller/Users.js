@@ -4,14 +4,14 @@ const controller = {
     createUser: async (req, res) => {
         const { name, email, password } = req.body;
         const sameEmail = await User.findOne({email: email});
-        if(sameEmail) return res.status(403).json({message: "Email ya existe"});
+        if(sameEmail) return res.status(400).send("Email ya existe");
         const newUser = User({
             name,
             email,
             password: await User.encryptPassword(password),
         });
-        const saveUser = await newUser.save();
-        res.status(200).json({saveUser});
+        await newUser.save();
+        res.status(200).send("Usuario creado");
     },
     showUser: async (req, res) => {
         const user = await User.findById(req.userId).populate("cards");
@@ -27,15 +27,12 @@ const controller = {
         let { name, password } = req.body;
         password = await User.encryptPassword(password)
         await User.findByIdAndUpdate(user.id, { name, password});
-        res.status(200).json({
-            message: "Datos actualizados"
-        });
+        res.status(200).send("Datos actualizados");
     },
     deleteUser: async (req, res) => {
+        //await User.findByIdAndDelete()
         await User.findByIdAndDelete(req.userId);
-        res.status(200).json({
-            message: "Usuario eliminado"
-        });
+        res.status(200).send("Usuario eliminado");
     }
 }
 
