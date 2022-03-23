@@ -1,4 +1,5 @@
 const User = require('../models/modelUsers');
+const Card = require('../models/modelCards');
 
 const controller = {
     createUser: async (req, res) => {
@@ -30,7 +31,7 @@ const controller = {
         res.status(200).send("Datos actualizados");
     },
     deleteUser: async (req, res) => {
-        //await User.findByIdAndDelete()
+        await Card.deleteMany({ userRel: req.userId });
         await User.findByIdAndDelete(req.userId);
         res.status(200).send("Usuario eliminado");
     }

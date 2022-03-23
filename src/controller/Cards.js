@@ -11,12 +11,13 @@ const controller = {
             if(element.alias == alias) aliasSame = true;
         });
         if(aliasSame) return res.status(403).json({message: "Alias ya existe"});
-
+        
         const closingDate = new Date(2022, 03, 14);
         const dueDate = new Date(2022, 03, 14);
         dueDate.setDate(dueDate.getDate() + 20);
 
         const newCard = Card({
+            userRel: req.userId,
             alias,
             icon,
             closing_date: closingDate,
