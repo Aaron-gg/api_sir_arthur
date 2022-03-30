@@ -26,7 +26,7 @@ const controller = {
     editUser: async (req, res) => {
         const user = await User.findById(req.userId);
         let { name, password } = req.body;
-        password = await User.encryptPassword(password)
+        password = await User.encryptPassword(password);
         await User.findByIdAndUpdate(user.id, { name, password});
         res.status(200).send("Datos actualizados");
     },

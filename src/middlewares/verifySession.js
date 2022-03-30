@@ -38,7 +38,25 @@ const clearBlackList = async (req, res, next) => {
     next();
 }
 
+const verifyCodeToken = async (req, res, next) => {
+    try {
+        const token = req.headers["x-recover-access-token"];
+        if(!token) return res.status(404).send("No token provided");
+        const decoded = jwt.verify(token, req.body.code);
+        req.userId = decoded.id;
+
+        const user = await User.findById(decoded.id, {password: 0});
+        if(!user) return res.status(401).send('No user found');
+        next();
+    }
+    catch (error){
+        console.log(error);
+        return res.status(403).send('Unauthorized or session expired');
+    }
+}
+
 module.exports = {
     verifySession,
-    clearBlackList
+    clearBlackList,
+    verifyCodeToken
 }

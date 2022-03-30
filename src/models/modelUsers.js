@@ -21,6 +21,9 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId // guardaremos un tipo de dato id de mongo
     }],
     blackListToken: Array,
+    accessCode: {
+        type: String,
+    },
 }, {
     timestamps: true,
     versionKey: false
