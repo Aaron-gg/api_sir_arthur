@@ -38,6 +38,7 @@ const controller = {
     authCode: async (req, res) => {
         const { email, code } = req.body;
         const user = await User.findOne({email: email});
+        if(!user) return res.status(401).send("Email no encontrado");
         const matchCode = await User.comparePassword(code, user.accessCode);
         if(!matchCode) return res.status(403).send("Codigo invalido");
         const token = jwt.sign({id: user._id}, code, {
