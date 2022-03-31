@@ -5,12 +5,12 @@ const verifyCard = async (req, res, next) => {
         const { id } = req.body;
         if(!id) return res.status(404).send('id no provided');
         const user = await User.findById(req.userId);
-        if(!user.cards.includes(id)) return res.status(404).send('id no valida');
+        if(!user.cards.includes(id)) return res.status(403).send('id no valida');
         req.cardId = id;
         next();
     }
     catch (error){
-        return res.status(401).send('Id no valida');
+        return res.status(403).send('Id no valida');
     }
 }
 
@@ -25,7 +25,7 @@ const verifyAliasDate = async (req, res, next) => {
         aliasFound.cards.forEach(element => {
             if(element.alias == alias) aliasSame = true;
         });
-        if(aliasSame) return res.status(403).send("Alias ya existe");
+        if(aliasSame) return res.status(400).send("Alias ya existe");
 
         const closingDate = new Date(closing_date);
         const dueDate = new Date(closing_date);
@@ -39,7 +39,7 @@ const verifyAliasDate = async (req, res, next) => {
         next();
     }
     catch (error){
-        return res.status(401).send('Error en mandar alias y/o fecha');
+        return res.status(400).send('Error en mandar alias y/o fecha');
     }
 }
 

@@ -12,7 +12,7 @@ const controller = {
             password: await User.encryptPassword(password),
         });
         await newUser.save();
-        res.status(200).send("Usuario creado");
+        res.status(201).send("Usuario creado");
     },
     showUser: async (req, res) => {
         const user = await User.findById(req.userId).populate("cards");

@@ -16,7 +16,7 @@ const controller = {
         const saveCard = await newCard.save();
 
         await User.findOneAndUpdate( { _id: req.userId }, { $push: { cards: saveCard._id }});
-        res.status(200).json({saveCard});
+        res.status(201).send("Tarjeta creada");
     },
     showCard: async (req, res) => {
         const card = await Card.findById(req.cardId);

@@ -32,8 +32,8 @@ const controller = {
         const accessCodeCrypt = await User.encryptPassword(accessCode);
         await User.findByIdAndUpdate(user._id, {accessCode: accessCodeCrypt});
         recoverPasswordMail(accessCode, email);
-        res.status(200).send("Correo enviado");
-        //res.status(200).send(accessCode);
+        //res.status(200).send("Correo enviado");
+        res.status(200).send(accessCode);
     },
     authCode: async (req, res) => {
         const { email, code } = req.body;
